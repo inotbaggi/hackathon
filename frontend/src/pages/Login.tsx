@@ -53,15 +53,15 @@ const Login: React.FC = () => {
                 </ModalDialog>
             </Modal>
             <div className="container mx-auto my-auto flex flex-col
-                 bg-cyan-50 rounded-2xl items-center py-2 px-6 md:px-8 lg:px-10">
+                 bg-gray-50 rounded-2xl items-center py-2 px-6 md:px-8 lg:px-10">
                 <div className="font-bold text-2xl pt-12">
-                    Авторизация Edu
+                    Авторизация
                 </div>
                 <form onSubmit={handleSubmit} className="p-12">
                     <Stack spacing={1}>
-                        <Input size="lg" type="email" placeholder="почта" required/>
-                        <Input size="lg" type="password" placeholder="пароль" required/>
-                        <Button type="submit">Войти</Button>
+                        <Input size="lg" type="email" placeholder="Почта" required/>
+                        <Input size="lg" type="password" placeholder="Пароль" required/>
+                        <Button size="lg" type="submit">Войти</Button>
                     </Stack>
                 </form>
             </div>
