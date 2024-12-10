@@ -1,5 +1,7 @@
 import {Button, DialogTitle, Drawer} from "@mui/joy";
 import React from "react";
+import {useAuth} from "../AuthContext";
+import HeaderProfile from "./HeaderProfile";
 
 export default function Header() {
     const [open, setOpen] = React.useState(false);
@@ -8,7 +10,7 @@ export default function Header() {
             <Drawer open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>EduConnect</DialogTitle>
                 <div className="p-4 flex flex-col items-center content-center">
-                    <Button onClick={() => (window.location.href = "/login")}>Войти</Button>
+                    <HeaderProfile/>
                 </div>
 
             </Drawer>
@@ -23,7 +25,7 @@ export default function Header() {
                 </span>
 
                     <div className="hidden sm:flex items-center gap-4">
-                        <Button onClick={() => (window.location.href = "/login")}>Войти</Button>
+                        <HeaderProfile/>
                     </div>
 
                     <div className="sm:hidden">

@@ -20,7 +20,9 @@ const Home: React.FC = () => {
                     чтобы качественное образование вело к успеху!
                 </p>
             </div>
-            <Button size="lg">
+            <Button size="lg" onClick={() => {
+                window.location.href = "/profile"
+            }}>
                 Начать
             </Button>
             <div>

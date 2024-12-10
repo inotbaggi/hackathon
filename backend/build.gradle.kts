@@ -4,6 +4,7 @@ plugins {
 	id("org.springframework.boot") version "3.4.0"
 	id("io.spring.dependency-management") version "1.1.6"
 	kotlin("plugin.jpa") version "1.9.25"
+	kotlin("kapt") version "1.5.30"
 }
 
 group = "me.baggi"
@@ -29,6 +30,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.mapstruct:mapstruct:1.5.3.Final")
+	kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
 	runtimeOnly("org.postgresql:postgresql")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")

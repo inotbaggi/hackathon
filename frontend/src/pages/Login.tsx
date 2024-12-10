@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     Button,
     DialogActions,
@@ -10,11 +10,15 @@ import {
     ModalDialog,
     TextField
 } from "@mui/joy";
-import axios from "axios";
+
 import Stack from "@mui/joy/Stack";
 import api from "../api/axois";
+import Cookies from "js-cookie";
+import {Authorized, UserDTO} from "../types";
+import {useAuth} from "../AuthContext";
 
 const Login: React.FC = () => {
+    const {setToken, setProfile} = useAuth();
     const [open, setOpen] = React.useState<boolean>(false);
     const [error, setError] = React.useState("");
 
@@ -24,9 +28,20 @@ const Login: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await api.post('api/v1/auth/login', { email, password });
-            localStorage.setItem('token', response.data.token);
-            window.location.href = '/dashboard';
+            const response = await api.post('api/v1/auth/login', {email, password});
+            const data = (response.data as Authorized)
+            if (data.role == null) {
+                setError("Пользователь не имеет роли! Сообщи в тех поддержку")
+                setOpen(true)
+                return
+            }
+            setToken(data.token)
+            Cookies.set('role', data.role);
+
+            const responseUser = await api.get(`api/v1/users/${data.id}`);
+            const dataUser = (responseUser.data as UserDTO)
+            setProfile(dataUser)
+            window.location.href = '/profile';
         } catch (error) {
             setError((error as Error).message);
             setOpen(true)
@@ -45,7 +60,7 @@ const Login: React.FC = () => {
                     <DialogContent>
                         {error}
                     </DialogContent>
-                    <DialogActions >
+                    <DialogActions>
                         <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>
                             Закрыть
                         </Button>
@@ -57,13 +72,18 @@ const Login: React.FC = () => {
                 <div className="font-bold text-2xl pt-12">
                     Авторизация
                 </div>
-                <form onSubmit={handleSubmit} className="p-12">
+                <form onSubmit={handleSubmit} className="pt-12">
                     <Stack spacing={1}>
-                        <Input size="lg" type="email" placeholder="Почта" required/>
-                        <Input size="lg" type="password" placeholder="Пароль" required/>
+                        <Input size="lg" type="email" placeholder="Почта" onChange={(e) => setEmail(e.target.value)}
+                               required/>
+                        <Input size="lg" type="password" placeholder="Пароль"
+                               onChange={(e) => setPassword(e.target.value)} required/>
                         <Button size="lg" type="submit">Войти</Button>
                     </Stack>
                 </form>
+                <div className="p-4 text-blue-500 cursor-pointer" onClick={() => window.location.href = '/register'}>
+                    Нет аккаунта? Зарегистрируйся!
+                </div>
             </div>
         </div>
     );
