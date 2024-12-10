@@ -22,12 +22,10 @@ export default function Header() {
                     EduConnect
                 </span>
 
-                    {/* Меню на больших экранах */}
                     <div className="hidden sm:flex items-center gap-4">
                         <Button onClick={() => (window.location.href = "/login")}>Войти</Button>
                     </div>
 
-                    {/* Меню-бургер для мобильных устройств */}
                     <div className="sm:hidden">
                         <Button onClick={() => setOpen(true)}>A</Button>
                     </div>
