@@ -9,6 +9,26 @@ export default function Header() {
             <Drawer open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>EduConnect</DialogTitle>
                 <div className="p-4 flex flex-col items-center content-center">
+                    <div className="cursor-pointer" onClick={() => {
+                        window.location.href = "/courses"
+                    }}>
+                        Курсы
+                    </div>
+                    <div className="cursor-pointer" onClick={() => {
+                        window.location.href = "/projects"
+                    }}>
+                        Проекты
+                    </div>
+                    <div className="cursor-pointer" onClick={() => {
+                        window.location.href = "/portfolio"
+                    }}>
+                        Портфолио
+                    </div>
+                    <div className="cursor-pointer" onClick={() => {
+                        window.location.href = "/vacancies"
+                    }}>
+                        Вакансии
+                    </div>
                     <HeaderProfile/>
                 </div>
 
