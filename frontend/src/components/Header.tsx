@@ -1,4 +1,4 @@
-import {Button, DialogTitle, Drawer} from "@mui/joy";
+import {Button, DialogTitle, Drawer, Link} from "@mui/joy";
 import React from "react";
 import HeaderProfile from "./HeaderProfile";
 
@@ -24,6 +24,26 @@ export default function Header() {
                 </span>
 
                     <div className="hidden sm:flex items-center gap-4">
+                        <div className="cursor-pointer" onClick={() => {
+                            window.location.href = "/courses"
+                        }}>
+                            Курсы
+                        </div>
+                        <div className="cursor-pointer" onClick={() => {
+                            window.location.href = "/projects"
+                        }}>
+                            Проекты
+                        </div>
+                        <div className="cursor-pointer" onClick={() => {
+                            window.location.href = "/portfolio"
+                        }}>
+                            Портфолио
+                        </div>
+                        <div className="cursor-pointer" onClick={() => {
+                            window.location.href = "/vacancies"
+                        }}>
+                            Вакансии
+                        </div>
                         <HeaderProfile/>
                     </div>
 

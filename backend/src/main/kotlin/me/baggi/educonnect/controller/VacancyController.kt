@@ -1,8 +1,11 @@
 package me.baggi.educonnect.controller
 
+import jakarta.persistence.EntityNotFoundException
 import me.baggi.educonnect.model.Role
 import me.baggi.educonnect.model.Vacancy
 import me.baggi.educonnect.model.dto.VacancyRequest
+import me.baggi.educonnect.model.dto.VacancyResponse
+import me.baggi.educonnect.service.UserService
 import me.baggi.educonnect.service.VacancyService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,11 +21,42 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/vacancies")
-class VacancyController(private val vacancyService: VacancyService) {
+class VacancyController(
+    private val vacancyService: VacancyService,
+    private val userService: UserService
+) {
 
     @GetMapping
-    fun getAllVacancies(): ResponseEntity<List<Vacancy>> {
-        return ResponseEntity.ok(vacancyService.getAllVacancies())
+    fun getAllVacancies(): ResponseEntity<List<VacancyResponse.DTO>> {
+        return ResponseEntity.ok(
+            vacancyService.getAllVacancies().map {
+                VacancyResponse.DTO(
+                    it.id,
+                    it.title,
+                    it.wage,
+                    it.position,
+                    it.description,
+                    ownerCompany = it.user.employerProfile?.companyName ?: "",
+                    owner = it.user.fio
+                )
+            }
+        )
+    }
+
+    @GetMapping("/user/{id}")
+    fun getVacanciesByOwner(@PathVariable id: Long): ResponseEntity<List<VacancyResponse.DTO>> {
+        val user = userService.getUserById(id) ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(vacancyService.getVacanciesByUser(user).map {
+            VacancyResponse.DTO(
+                it.id,
+                it.title,
+                it.wage,
+                it.position,
+                it.description,
+                ownerCompany = it.user.employerProfile?.companyName ?: "",
+                owner = it.user.fio
+            )
+        })
     }
 
     @GetMapping("/{id}")

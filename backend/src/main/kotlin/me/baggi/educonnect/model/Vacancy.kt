@@ -19,11 +19,11 @@ data class Vacancy(
     val tags: List<String>,
     @Column(name = "vacancy_position")
     val position: String,
-    @Column(name = "vacancy_description")
+    @Column(name = "vacancy_description", length = 5000000)
     val description: String,
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     val user: User
 )

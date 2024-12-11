@@ -42,11 +42,7 @@ const EmployerVacancies: React.FC = () => {
     });
 
     useEffect(() => {
-       /* if (!profile || profile.role !== 'EMPLOYER') {
-            navigate('/');
-        } else {
-            fetchVacancies();
-        }*/
+        fetchVacancies();
     }, [profile, navigate]);
 
     const fetchVacancies = async () => {
@@ -145,14 +141,8 @@ const EmployerVacancies: React.FC = () => {
                                 <Typography level="h4" className="font-bold mb-2">
                                     {vacancy.title}
                                 </Typography>
-                                <Typography level="body-lg" className="text-gray-700">
-                                    {vacancy.description}
-                                </Typography>
                                 <Typography level="body-lg" className="text-gray-500">
-                                    {vacancy.tags.join(', ')}
-                                </Typography>
-                                <Typography level="body-lg" className="text-gray-500">
-                                    Зарплата: {vacancy.wage}
+                                   {vacancy.wage}
                                 </Typography>
                                 <div className="flex justify-end mt-4 gap-2">
                                     <Button

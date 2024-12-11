@@ -1,11 +1,11 @@
 import React from 'react';
-import { Card, CardContent, Typography, Stack, Divider } from '@mui/joy';
-import { Button } from '@mui/joy';
+import {Card, CardContent, Typography, Stack, Divider} from '@mui/joy';
+import {Button} from '@mui/joy';
 import {useAuth} from "../AuthContext";
 import {Navigate} from "react-router-dom";
 
 const UserDashboard: React.FC = () => {
-    const { profile, logout } = useAuth();
+    const {profile, logout} = useAuth();
     if (profile == null) return null
     return (
         <div className="p-6 min-h-screen">
@@ -30,33 +30,41 @@ const UserDashboard: React.FC = () => {
                 </Card>
 
                 {profile.studentProfile && (
-                    <ProfileCard
-                        title="Профиль студента"
-                        details={[
-                            { label: 'Учебное заведение', value: profile.studentProfile.educationalInstitution },
-                            { label: 'Группа', value: profile.studentProfile.group },
-                        ]}
-                    />
+                    <div>
+                        <ProfileCard
+                            title="Профиль студента"
+                            details={[
+                                {label: 'Учебное заведение', value: profile.studentProfile.educationalInstitution},
+                                {label: 'Группа', value: profile.studentProfile.group},
+                            ]}
+                        />
+                    </div>
                 )}
 
                 {profile.teacherProfile && (
                     <ProfileCard
                         title="Профиль учителя"
                         details={[
-                            { label: 'Учебное заведение', value: profile.teacherProfile.educationalInstitution },
-                            { label: 'Предмет', value: profile.teacherProfile.subject },
+                            {label: 'Учебное заведение', value: profile.teacherProfile.educationalInstitution},
+                            {label: 'Предмет', value: profile.teacherProfile.subject},
                         ]}
                     />
                 )}
 
                 {profile.employerProfile && (
-                    <ProfileCard
-                        title="Профиль работодателя"
-                        details={[
-                            { label: 'Компания', value: profile.employerProfile.companyName },
-                            { label: 'Должность', value: profile.employerProfile.position },
-                        ]}
-                    />
+
+                    <div>
+                        <ProfileCard
+                            title="Профиль работодателя"
+                            details={[
+                                {label: 'Компания', value: profile.employerProfile.companyName},
+                                {label: 'Должность', value: profile.employerProfile.position},
+                            ]}
+                        />
+                        <Button onClick={() => {
+                            window.location.href = "/empl/vacancies"
+                        }}>Управление вакансиями</Button>
+                    </div>
                 )}
 
                 {/* Logout Button */}
@@ -75,14 +83,14 @@ interface ProfileCardProps {
     details: { label: string; value: string }[];
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ title, details }) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({title, details}) => {
     return (
         <Card variant="outlined" className="mb-4">
             <CardContent>
                 <Typography level="h4" className="font-bold mb-3">
                     {title}
                 </Typography>
-                <Stack spacing={2} divider={<Divider />}>
+                <Stack spacing={2} divider={<Divider/>}>
                     {details.map((detail, index) => (
                         <div key={index} className="flex justify-between text-gray-700">
                             <Typography level="body-lg" className="font-medium">

@@ -11,6 +11,13 @@ import {AuthProvider, useAuth} from "./AuthContext";
 import Profile from "./pages/Profile";
 import NotVerified from "./pages/NotVerified";
 import Vacancies from "./pages/Vacancies";
+import VacancySearchPage from "./pages/VacancyMarketplace";
+import VacancyDetailsPage from "./pages/Vacancy";
+import {AllCourses, CourseDetails, LessonDetails} from "./pages/Courses";
+import CourseEditor from "./pages/CourseEditor";
+import Projects from "./pages/Projects";
+import Course from "./pages/Course";
+import Portfolio from "./pages/Portfolio";
 
 const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
     const { token, profile } = useAuth();
@@ -39,8 +46,15 @@ function App() {
                             <Route path="/register" element={<Register/>}/>
                             <Route path="/not-verified" element={<NotVerified/>}/>
                             <Route path="/profile" element={<PrivateRoute><Profile/></PrivateRoute>}/>
-                            <Route path="/vacancies" element={<PrivateRoute><Vacancies/></PrivateRoute>}/>
-                            <Route path="/dashboard" element={<PrivateRoute><div>asdasd</div></PrivateRoute>}/>
+                            <Route path="/vacancies" element={<VacancySearchPage/>}/>
+                            <Route path="/vacancies/:id" element={<VacancyDetailsPage/>} />
+                            <Route path="/empl/vacancies" element={<PrivateRoute><Vacancies/></PrivateRoute>}/>
+                            <Route path="/courses" element={<Course  />} />
+                            <Route path="/courses/:id" element={<CourseDetails   />} />
+                            <Route path="/courses/:courseId/lessons/:lessonId" element={<LessonDetails   />} />
+                            <Route path="/courses/create" element={<CourseEditor />} />
+                            <Route path="/projects" element={<Projects/>}/>
+                            <Route path="/portfolio" element={<Portfolio/>} />
                         </Routes>
                     </Router>
                 </div>

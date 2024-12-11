@@ -1,9 +1,10 @@
 package me.baggi.educonnect.service
 
 import jakarta.persistence.EntityNotFoundException
+import me.baggi.educonnect.model.User
 import me.baggi.educonnect.model.Vacancy
 import me.baggi.educonnect.model.dto.VacancyRequest
-import me.baggi.educonnect.repository.UserRepository
+import me.baggi.educonnect.model.dto.VacancyResponse
 import me.baggi.educonnect.repository.VacancyRepository
 import org.springframework.stereotype.Service
 
@@ -12,8 +13,9 @@ class VacancyService(
     private val vacancyRepository: VacancyRepository,
     private val userService: UserService
 ) {
-
     fun getAllVacancies(): List<Vacancy> = vacancyRepository.findAll()
+
+    fun getVacanciesByUser(user: User): List<Vacancy> = vacancyRepository.findByUser(user)
 
     fun getVacancyById(id: Long): Vacancy =
         vacancyRepository.findById(id).orElseThrow {
