@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import {UserDTO} from "./types";
+import api from "./api/axois";
 
 interface AuthContextType {
     token: string | null;
@@ -23,17 +24,30 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [token, setTokenState] = useState<string | null>(Cookies.get('token') as string);
     const [userId, setUserIdState] = useState<number | null>(parseInt(Cookies.get('userId') as string));
-    const [profile, setProfileState] = useState<UserDTO | null>(JSON.parse(localStorage.getItem('profile') as string));
+    const [profile, setProfileState] = useState<UserDTO | null>(null);
 
     useEffect(() => {
         const storedToken = Cookies.get('token');
         const storedUserId = Cookies.get('userId');
-        const storedProfile = sessionStorage.getItem('userProfile');
 
         if (storedToken) setTokenState(storedToken);
-        if (storedUserId) setUserIdState(parseInt(storedUserId));
-        if (storedProfile) setProfileState(JSON.parse(storedProfile));
-    }, [token]);
+        if (storedUserId) {
+            setUserIdState(parseInt(storedUserId));
+            const fetchProfile = async () => {
+                if (userId && !profile) {
+                    try {
+                        const fetchedProfile = await api.get(`api/v1/users/${userId}`);
+                        console.log(fetchedProfile.data)
+                        setProfileState(fetchedProfile.data);
+                    } catch (error) {
+                        console.error('Failed to fetch user profile:', error);
+                    }
+                }
+            };
+
+            fetchProfile();
+        }
+    }, [token, userId, profile]);
 
     const setToken = (token: string) => {
         Cookies.set('token', token, { expires: 7 });

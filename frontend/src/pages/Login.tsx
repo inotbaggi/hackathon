@@ -18,7 +18,7 @@ import {Authorized, UserDTO} from "../types";
 import {useAuth} from "../AuthContext";
 
 const Login: React.FC = () => {
-    const {setToken, setProfile} = useAuth();
+    const {setToken, setProfile, setUserId} = useAuth();
     const [open, setOpen] = React.useState<boolean>(false);
     const [error, setError] = React.useState("");
 
@@ -41,6 +41,7 @@ const Login: React.FC = () => {
             const responseUser = await api.get(`api/v1/users/${data.id}`);
             const dataUser = (responseUser.data as UserDTO)
             setProfile(dataUser)
+            setUserId(data.id)
             window.location.href = '/profile';
         } catch (error) {
             setError((error as Error).message);

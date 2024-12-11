@@ -1,6 +1,5 @@
 import {Button, DialogTitle, Drawer} from "@mui/joy";
 import React from "react";
-import {useAuth} from "../AuthContext";
 import HeaderProfile from "./HeaderProfile";
 
 export default function Header() {

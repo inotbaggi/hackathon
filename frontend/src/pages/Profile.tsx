@@ -6,8 +6,7 @@ import {Navigate} from "react-router-dom";
 
 const UserDashboard: React.FC = () => {
     const { profile, logout } = useAuth();
-    console.log(profile);
-    if (profile == null) return <div>kek</div>
+    if (profile == null) return null
     return (
         <div className="p-6 min-h-screen">
             <div className="max-w-4xl mx-auto">
@@ -21,12 +20,6 @@ const UserDashboard: React.FC = () => {
                         </Typography>
                         <Typography level="body-lg" className="text-gray-700 mb-1">
                             <strong>Email:</strong> {profile.email}
-                        </Typography>
-                        <Typography level="body-lg" className="text-gray-700 mb-1">
-                            <strong>Роль:</strong> {profile.role}
-                        </Typography>
-                        <Typography level="body-lg" className="text-gray-700 mb-1">
-                            <strong>Статус верификации:</strong> {profile.verified ? 'Верифицирован' : 'Не верифицирован'}
                         </Typography>
                         {profile.verificationCanceled && (
                             <Typography level="body-md" className="text-red-600">

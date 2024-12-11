@@ -10,36 +10,15 @@ import Footer from "./components/Footer";
 import {AuthProvider, useAuth} from "./AuthContext";
 import Profile from "./pages/Profile";
 import NotVerified from "./pages/NotVerified";
-import api from "./api/axois";
-import {UserDTO} from "./types";
+import Vacancies from "./pages/Vacancies";
 
 const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
-    const { token, userId, profile, setProfile } = useAuth();
-
-    useEffect(() => {
-        const fetchProfile = async () => {
-            if (userId && !profile) {
-                try {
-                    const fetchedProfile = await api.get(`api/v1/users/${userId}`);
-                    setProfile(fetchedProfile.data as UserDTO);
-                } catch (error) {
-                    console.error('Failed to fetch user profile:', error);
-                }
-            }
-        };
-
-        fetchProfile();
-    }, [userId, profile, setProfile]);
+    const { token, profile } = useAuth();
 
     if (!token) {
         return <Navigate to="/login" replace />;
     }
-
-    if (!profile) {
-        return <div>Loading...</div>;
-    }
-
-    if (!profile.verified) {
+    if (profile?.verified == false) {
         return <Navigate to="/not-verified" />;
     }
 
@@ -48,7 +27,6 @@ const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
 
 
 function App() {
-
     return (
         <AuthProvider>
             <div className="flex flex-col h-screen gap-8">
@@ -61,6 +39,7 @@ function App() {
                             <Route path="/register" element={<Register/>}/>
                             <Route path="/not-verified" element={<NotVerified/>}/>
                             <Route path="/profile" element={<PrivateRoute><Profile/></PrivateRoute>}/>
+                            <Route path="/vacancies" element={<PrivateRoute><Vacancies/></PrivateRoute>}/>
                             <Route path="/dashboard" element={<PrivateRoute><div>asdasd</div></PrivateRoute>}/>
                         </Routes>
                     </Router>
